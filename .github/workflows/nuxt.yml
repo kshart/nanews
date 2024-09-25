@@ -1,0 +1,60 @@
+name: Nuxt release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+    - name: Make
+      run: |
+        npm ci
+        npm run build
+    - name: Build
+      run: |
+        mkdir release
+        mv .output ./release
+        cp ecosystem.config.cjs ./release
+        tar -zcvf nanews.${{ github.ref_name }}.tar.gz ./release
+        rm -rf ./release
+    - name: Publish
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref_name }}
+        body: |
+          # Релиз нановости.чточто.рф
+
+          ## Развертывание
+          ```
+            cd /srv/нановости.чточто.рф
+            wget https://github.com/kshart/nanews/releases/download/${{ github.ref_name }}/nanews.${{ github.ref_name }}.tar.gz
+            tar -xzf nanews.${{ github.ref_name }}.tar.gz
+            mv ./release/ecosystem.config.cjs ./
+            mv ./release/.output ./
+            rm -rf ./release
+            pm2 stop нановости.чточто.рф
+            pm2 start ./ecosystem.config.cjs
+          ```
+        draft: false
+        prerelease: false
+    - name: Upload Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./nanews.${{ github.ref_name }}.tar.gz
+        asset_name: nanews.${{ github.ref_name }}.tar.gz
+        asset_content_type: application/x-gzip

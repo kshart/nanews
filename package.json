@@ -1,0 +1,22 @@
+{
+  "name": "nanews",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^0.5.7",
+    "@pinia/nuxt": "^0.5.4",
+    "nuxt": "^3.13.0",
+    "pinia": "^2.2.2",
+    "sass": "^1.79.3",
+    "vue": "latest",
+    "vue-router": "latest",
+    "vuetify-nuxt-module": "^0.18.3"
+  }
+}
