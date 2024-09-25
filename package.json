@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@artmizu/yandex-metrika-nuxt": "^1.0.4",
     "@nuxt/eslint": "^0.5.7",
     "@pinia/nuxt": "^0.5.4",
     "nuxt": "^3.13.0",

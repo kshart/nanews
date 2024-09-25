@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/eslint',
     'vuetify-nuxt-module',
+    '@artmizu/yandex-metrika-nuxt',
   ],
   app: {
     head: {
@@ -15,8 +16,19 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'icon', type: 'image/png', href: '/android-chrome-192x192.png', sizes: '192x192' },
         { rel: 'icon', type: 'image/png', href: '/android-chrome-512x512.png', sizes: '512x512' },
-      ]
+      ],
     }
+  },
+  runtimeConfig: {
+    public: {
+      yandexMetrika: {
+        initParams: {
+          clickmap: true,
+          trackLinks: true,
+          accurateTrackBounce: true
+        }
+      },
+    },
   },
   build: {
     analyze: true,
