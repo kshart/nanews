@@ -33,7 +33,14 @@
 </template>
 
 <script setup lang="ts">
-const users = await $fetch('/api/users/search')
+import type { User } from '@/types/models'
+
+const users = ref<User[]>([])
+onMounted(() => {
+  setTimeout(async () => {
+    users.value = await $fetch('/api/users/search')
+  }, 500)
+})
 
 const query = defineModel<{
   identifier: string | null

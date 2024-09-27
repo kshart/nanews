@@ -13,17 +13,21 @@
         <PostCardMini :post="post" />
       </v-col>
     </v-row>
-    <v-progress-circular
-      v-if="isLoading"
-      indeterminate
-    />
-    <div>
+    <div v-if="isLoading" class="d-flex justify-center pa-4">
+      <v-progress-circular
+        indeterminate
+      />
+    </div>
+    <div class="d-flex justify-center pa-4 text-grey-lighten-1">
       Total {{ paginator.total }}
     </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
+import type { Post } from '@/types/models'
+import { useInfiniteScroll } from '@vueuse/core'
+
 const url = useRequestURL()
 useSeoMeta({
   title: 'Нановости, новости',
@@ -84,11 +88,15 @@ const { data: postsResult } = await useFetch('/api/posts', {
     fts: query.value.fts || undefined,
     page: 0,
     perPage: (page.value + 1) * paginator.value.perPage,
-  }
+  },
 })
-const posts = ref(postsResult.value!.data)
-paginator.value.total = postsResult.value!.total
-paginator.value.totalPages = postsResult.value!.totalPages
+
+const posts = ref<Post[]>([])
+if (postsResult.value) {
+  posts.value = postsResult.value.data
+  paginator.value.total = postsResult.value.total
+  paginator.value.totalPages = Math.ceil(postsResult.value.total / paginator.value.perPage)
+}
 
 const fetchPosts = async (page: number, perPage: number) => {
   return await $fetch('/api/posts', {
@@ -125,14 +133,17 @@ const { reset, isLoading } = useInfiniteScroll(
     },
   }
 )
-watch(() => query.value.identifier, async () => {
-  paginator.value.total = null
-  paginator.value.totalPages = null
-  page.value = 0
-  const { data, total, totalPages } = await fetchPosts(0, paginator.value.perPage)
-  paginator.value.total = total
-  paginator.value.totalPages = totalPages
-  posts.value = reactive(data)
-  reset()
-})
+
+if (!import.meta.server) {
+  watch(() => query.value.identifier, async () => {
+    paginator.value.total = null
+    paginator.value.totalPages = null
+    page.value = 0
+    const { data, total, totalPages } = await fetchPosts(0, paginator.value.perPage)
+    paginator.value.total = total
+    paginator.value.totalPages = totalPages
+    posts.value = reactive(data)
+    reset()
+  })
+}
 </script>

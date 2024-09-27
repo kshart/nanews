@@ -34,9 +34,6 @@ export default defineNuxtConfig({
   build: {
     analyze: true,
   },
-  routeRules: {
-    '/': { prerender: true },
-  },
   vuetify: {
     moduleOptions: {
       /* module specific options */

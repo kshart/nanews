@@ -3,8 +3,7 @@
     <v-app-bar
       absolute
       :height="70"
-      :order="1"
-      >
+    >
       <v-container class="mx-auto d-flex align-center justify-center">
         <v-btn
           to="/"
@@ -13,9 +12,10 @@
           type="text"
           :active="false"
         >
-          <v-avatar
-            size="50"
-            image="/logo.png"
+          <v-img
+            ea3ger
+            width="50px"
+            src="/logo.png"
           />
         </v-btn>
         <v-spacer />
@@ -32,14 +32,16 @@
     </v-app-bar>
 
     <v-main
-      :order="1"
       class="bg-grey-lighten-3"
+      style="
+        --v-layout-left: 0px;
+        --v-layout-right: 0px;
+        --v-layout-top: 70px;
+        --v-layout-bottom: 0px;
+      "
     >
       <NuxtRouteAnnouncer />
       <NuxtPage />
     </v-main>
   </v-app>
 </template>
-
-<script lang="ts" setup>
-</script>
