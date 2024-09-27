@@ -1,7 +1,9 @@
 <template>
-  <div>
-    author 1
-  </div>
+  <v-container maxWidth="900px">
+    <v-sheet rounded="lg">
+      users
+    </v-sheet>
+  </v-container>
 </template>
 
 <script setup lang="ts">

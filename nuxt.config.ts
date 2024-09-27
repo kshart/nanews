@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@nuxt/eslint',
+    '@vueuse/nuxt',
     'vuetify-nuxt-module',
     '@artmizu/yandex-metrika-nuxt',
   ],
@@ -41,8 +42,10 @@ export default defineNuxtConfig({
       /* module specific options */
     },
     vuetifyOptions: {
-      icons: false,
-    }
+      icons: {
+        defaultSet: 'mdi',
+      },
+    },
   },
   vite: {
     build: {

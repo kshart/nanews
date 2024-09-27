@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@artmizu/yandex-metrika-nuxt": "^1.0.4",
+    "@mdi/font": "^7.4.47",
     "@nuxt/eslint": "^0.5.7",
     "@pinia/nuxt": "^0.5.4",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
     "sass": "^1.79.3",

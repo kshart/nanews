@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <NuxtRouteAnnouncer />
-    <v-app-bar flat>
+    <v-app-bar
+      absolute
+      :height="70"
+      :order="1"
+      >
       <v-container class="mx-auto d-flex align-center justify-center">
         <v-btn
           to="/"
@@ -18,11 +21,7 @@
         <v-spacer />
         <v-btn
           to="/"
-          text="go main"
-        />
-        <v-btn
-          to="/articles"
-          text="articles"
+          text="go to posts"
         />
         <v-btn
           to="/authors"
@@ -32,7 +31,11 @@
       </v-container>
     </v-app-bar>
 
-    <v-main class="bg-grey-lighten-3">
+    <v-main
+      :order="1"
+      class="bg-grey-lighten-3"
+    >
+      <NuxtRouteAnnouncer />
       <NuxtPage />
     </v-main>
   </v-app>
