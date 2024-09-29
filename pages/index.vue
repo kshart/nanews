@@ -39,7 +39,7 @@ useSeoMeta({
 })
 
 const paginator = ref({
-  perPage: 3,
+  perPage: 15,
   total: null as number | null,
   totalPages: null as number | null,
 })
@@ -60,6 +60,16 @@ const page = computed({
     })
   },
 })
+
+if (!route.query.identifier) {
+  router.replace({
+    path: route.path,
+    query: {
+      ...route.query,
+      identifier: String(+new Date()),
+    }
+  })
+}
 const query = computed({
   get () {
     return {
@@ -124,7 +134,7 @@ const { reset, isLoading } = useInfiniteScroll(
     posts.value = posts.value.concat(reactive(data))
   },
   {
-    distance: 10,
+    distance: 50,
     canLoadMore: () => {
       if (paginator.value.total === null || paginator.value.totalPages === null) {
         return true

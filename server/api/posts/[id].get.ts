@@ -1,12 +1,9 @@
-import type { Post, User } from '@/types/models'
-
 export default defineCachedEventHandler(async (event) => {
-  const allPostsFetch = $fetch('https://jsonplaceholder.typicode.com/posts')
-  const allUsersFetch = $fetch('https://jsonplaceholder.typicode.com/users')
-  const allUsers = await allUsersFetch as User[]
-  const allPosts = await allPostsFetch as Post[]
-  const userMap = new Map()
+  const db = useDB()
+  const allUsers = await db.user.findAll()
+  const allPosts = await db.post.findAll()
 
+  const userMap = new Map()
   for (const user of allUsers) {
     userMap.set(user.id, user)
   }

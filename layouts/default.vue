@@ -21,7 +21,7 @@
         <v-spacer />
         <v-btn
           to="/"
-          text="go to posts"
+          text="posts"
         />
         <v-btn
           to="/authors"

@@ -16,6 +16,8 @@
     "@pinia/nuxt": "^0.5.4",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
+    "debounce": "^2.1.1",
+    "leaflet": "^1.9.4",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.2",
     "sass": "^1.79.3",

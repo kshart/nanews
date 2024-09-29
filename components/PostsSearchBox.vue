@@ -7,8 +7,9 @@
       prependInnerIcon="mdi-magnify"
       itemProps
       clearable
-      @change="applyFilters()"
-      @input="applyFilters()"
+      @change="applyFilters.trigger()"
+      @click:clear="applyFilters.trigger()"
+      @update:modelValue="applyFilters()"
     />
     <v-autocomplete
       v-model="userId"
@@ -19,7 +20,7 @@
       label="Author"
       placeholder="Filter by author"
       clearable
-      @update:modelValue="applyFilters()"
+      @update:modelValue="applyFilters.trigger()"
     >
       <template #item="{ props, item }">
         <v-list-item
@@ -33,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import debounce from 'debounce'
 import type { User } from '@/types/models'
 
 const users = ref<User[]>([])
@@ -61,13 +63,19 @@ watch(query, (query) => {
   userId.value = query.userId || null
 }, { immediate: true })
 
-const applyFilters = () => {
-  query.value = {
-    identifier: String(+new Date()),
-    fts: fts.value,
-    userId: userId.value,
+const applyFiltersInner = () => {
+  if (fts.value === null) {
+    fts.value = ''
+  }
+  if (fts.value !== query.value.fts || query.value.userId !== userId.value) {
+    query.value = {
+      identifier: String(+new Date()),
+      fts: fts.value,
+      userId: userId.value,
+    }
   }
 }
+const applyFilters = debounce(applyFiltersInner, 600)
 </script>
 
 <style lang="scss" scoped>

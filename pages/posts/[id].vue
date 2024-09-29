@@ -18,9 +18,12 @@
 <script setup lang="ts">
 const route = useRoute()
 const postId = route.params.id
-
 const { data: post } = await useFetch('/api/posts/' + postId)
+if (!post.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+}
 const url = useRequestURL()
+
 useSeoMeta({
   title: post.value.title,
   ogTitle: post.value.title,

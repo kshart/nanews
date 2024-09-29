@@ -11,12 +11,11 @@ export default defineCachedEventHandler(async (event) => {
   const perPage = Number(query.perPage || 30)
   const page = Number(query.page || 0)
 
-  const allPostsFetch = $fetch('https://jsonplaceholder.typicode.com/posts')
-  const allUsersFetch = $fetch('https://jsonplaceholder.typicode.com/users')
-  const allUsers = await allUsersFetch as User[]
-  let allPosts = await allPostsFetch as Post[]
-  const userMap = new Map()
+  const db = useDB()
+  const allUsers = await db.user.findAll()
+  let allPosts = await db.post.findAll()
 
+  const userMap = new Map()
   for (const user of allUsers) {
     userMap.set(user.id, user)
   }
@@ -25,7 +24,6 @@ export default defineCachedEventHandler(async (event) => {
     const userId = Number(query.userId)
     allPosts = allPosts.filter(p => p.userId === userId)
   }
-
   if (query.fts) {
     const fts = String(query.fts).toLowerCase()
     allPosts = allPosts.filter(p => p.title.toLowerCase().indexOf(fts) >= 0 || p.body.toLowerCase().indexOf(fts) >= 0)
@@ -43,4 +41,4 @@ export default defineCachedEventHandler(async (event) => {
       }
     }),
   }
-}/* , { maxAge: 60 * 60 } */)
+}, { maxAge: 60 * 60 })
