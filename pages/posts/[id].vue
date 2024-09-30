@@ -33,4 +33,10 @@ useSeoMeta({
   robots: 'index, follow',
 })
 
+if (import.meta.client) {
+  const viewedPostsStore = useViewedPostsStore()
+  watch(() => post.value?.id, () => {
+    viewedPostsStore.add(Number(postId))
+  }, { immediate: true })
+}
 </script>

@@ -2,18 +2,26 @@
   <v-card
     :title="props.post.title"
     :to="'/posts/' + props.post.id"
+    :color="color"
+    :style="'background:' + color"
   >
     <v-card-subtitle>
-      <NuxtLink :to="'/authors/' +  props.post.userId">{{ '@' +  props.post.user?.username }}</NuxtLink>
+      {{ '@' + props.post.user?.username }}
     </v-card-subtitle>
     <v-card-text style="white-space: pre-wrap">{{ props.post.body }}</v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type { Post } from '@/types/model'
+import type { Post } from '@/types/models'
 
 const props = defineProps<{
   post: Post
 }>()
+
+const viewedPostsStore = useViewedPostsStore()
+onMounted(() => {
+  viewedPostsStore.init()
+})
+const color = computed(() => viewedPostsStore.postIds.includes(props.post.id) ? '#e0e0e0' : undefined)
 </script>
